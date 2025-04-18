@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu_mig
+#SBATCH --gpus=1
+#SBATCH --job-name=GenerateParisMeshes
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=9
+#SBATCH --time=08:00:00
+#SBATCH --output=slurm_output_%A.out
+
+source ~/.bashrc
+
+# Your job starts in the directory where you call sbatch
+cd $HOME/DreMa/third_party/PartField
+# Activate your environment
+source activate partfield
+# Run your code
+srun python partfield_inference.py -c configs/final/demo.yaml --opts continue_ckpt model/model_objaverse.ckpt result_name partfield_features/box dataset.data_path data/box
+
